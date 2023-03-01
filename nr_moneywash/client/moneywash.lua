@@ -7,10 +7,28 @@ Citizen.CreateThread(function()
     end
 end)
 
+-- if not lib then return end
+
+-- -- Module is deprecated and provided for compatibility
+-- -- All functions are now part of with ox_lib
+
+-- exports('Keyboard', lib.inputDialog)
+
+-- exports('Progress', function(options, completed)
+-- 	local success = lib.progressCircle(options)
+
+-- 	if completed then
+-- 		completed(not success)
+-- 	end
+-- end)
 
 -- exports('CancelProgress', lib.cancelProgress)
 -- exports('ProgressActive', lib.progressActive)
+-- local audah = TriggerServerEvent
+-- local apaiya = TriggerEvent
 
+-- local iyah = RegisterNetEvent
+-- local iya = AddEventHandler
 
 RegisterNetEvent("ketell:notify")
 AddEventHandler("ketell:notify", function()
@@ -25,10 +43,10 @@ AddEventHandler("ketell:notify", function()
 	end
 end)
 
-function WashMoney()
-    TriggerEvent('ketell:prosescuci')
+-- function WashMoney()
+--     TriggerEvent('ketell:prosescuci')
  
-end
+-- end
 
 RegisterNetEvent("ketell:prosescuci")
 AddEventHandler("ketell:prosescuci", function(completed)
@@ -44,6 +62,10 @@ AddEventHandler("ketell:prosescuci", function(completed)
             move = true,
             combat = true,
         },
+        anim = {
+            dict = 'mp_player_intdrink',
+            clip = 'loop_bottle'
+        },
     }))
     if sucess then
         --TriggerServerEvent('ketell:cuciduit')
@@ -53,8 +75,8 @@ AddEventHandler("ketell:prosescuci", function(completed)
         proses = false
         local laundromat = vector3(1137.46, -991.97, 46.11)
         local chance = math.random(0,100)
-         if chance > 80 then
-          TriggerServerEvent("ketell:notifyy", laundromat)
+         if chance > 5 then
+            TriggerServerEvent("ketell:notifyy", laundromat)
             end
         end
     end
@@ -80,28 +102,46 @@ if ConfigMoneyWash.EnableMoneyWashBlip then
 	end)
 end
 
-Citizen.CreateThread(function()
-    exports.qtarget:AddBoxZone("MoneyWash", vector3(1135.07, -989.66, 46.11), 6.8, 1.6, {
-        name="MoneyWash",
-        heading = 7,
-        -- debugPoly = true,
-        minZ = 45.11,
-        maxZ = 47.41
-    }, {
-        options = {
-        {
-        event = "moneywash:qt",
-        icon = "fas fa-money-bill",
-        label = "Wash Money",
-        },
-    },
-        distance = 4.0
-    })
-end)
+
+            exports.qtarget:AddBoxZone("MoneyWash", vector3(1135.07, -989.66, 46.11), 6.8, 1.6, {
+                name="MoneyWash",
+                heading=7,
+                debugPoly=false,
+                minZ=45.11,
+                maxZ=47.41
+                }, {
+                    options = {
+                        {
+                        event = "moneywash:qt",
+                        icon = "fas fa-money-bill",
+                        label = "Money Wash",
+                        job = {
+                            ['cartel'] = 0,
+                            ['mafia'] = 0,
+                            ['gang'] = 0,
+                            ['yakuza'] = 0,
+                            ['biker'] = 0,
+                            ['yakuza'] = 0,
+                            ['family'] = 0,
+                        },
+                        },
+                    },
+                    distance = 1.5
+            })
+
 
 RegisterNetEvent('moneywash:qt')
 AddEventHandler('moneywash:qt', function()
-    WashMoney()
+    --WashMoney()
+    ESX.TriggerServerCallback('ketell:policeany', function(policeany)
+		if policeany >= ConfigMoneyWash.MinimalPolisi then
+            TriggerEvent('ketell:prosescuci')
+        else
+            lib.notify({
+                title = 'MoneyWash',
+                description = 'Kekurangan Polisi',
+                type = 'error'
+            })
+        end
+    end)
 end)
-
-

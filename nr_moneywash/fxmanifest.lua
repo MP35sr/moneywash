@@ -16,7 +16,6 @@ client_scripts {
     '@nr_base/polyzone/ComboZone.lua',
 	'configmoneywash.lua',
 	'client/moneywash.lua',
-    'locales/*.lua',
 }
 
 shared_scripts {
